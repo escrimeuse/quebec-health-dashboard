@@ -30,11 +30,15 @@ export function SurgicalWaitlist() {
                 Number of patients on the surgical waitlist over time, by surgical specialty, wait time period, and region.
             </CardDescription>
             <CardAction>
+                <div className="gap-2 flex flex-col">
+                    <div>
                 <ToggleGroup type="single" value={waitPeriod} variant="outline">
                     {Object.keys(WAIT_LABELS).map((key) => {
                         return <ToggleGroupItem key={key} value={key} size="sm" onClick={() => setWaitPeriod(key as Wait)}>{WAIT_LABELS[key as keyof typeof WAIT_LABELS]}</ToggleGroupItem>
                     })}
                 </ToggleGroup>
+                </div>
+                <div>
                 <Field>
                 <Select value={region} onValueChange={(value) => setRegion(value as Region)}>
                     <SelectTrigger>
@@ -49,6 +53,8 @@ export function SurgicalWaitlist() {
                     </SelectContent>
                 </Select>
                 </Field>
+                </div>
+                </div>
             </CardAction>
         </CardHeader>
         <CardContent>
