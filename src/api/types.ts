@@ -3,12 +3,12 @@ export type QuebecOpenData<T> = {
     result: {
         fields: Field[];
         records: T[];
-        sql: string;
+        sql: string | null;
     }
     success: boolean;
 }
 
 export type Field = {
     id: string;
-    type: 'int4' | 'tsvector' | 'numeric';
+    type: 'int4' | 'tsvector' | 'numeric' | 'text' | 'timestamp';
 }

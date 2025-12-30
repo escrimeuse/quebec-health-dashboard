@@ -5,15 +5,12 @@ import { getSurgicalWaitlistData } from "./api";
 import { useMemo, useState } from "react";
 import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { CHART_CONFIG, REGION_LABELS, WAIT_LABELS } from "./constants";
-import type { Region, SurgicalWaitlist, Wait } from "./types";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger } from "@/components/ui/select";
-import { SelectValue } from "@radix-ui/react-select";
-import { Field } from "@/components/ui/field";
+import { CHART_CONFIG, WAIT_LABELS } from "./constants";
+import type { SurgicalWaitlist, Wait } from "./types";
+import type { Region } from "@/utils/regions";
 
-export function SurgicalWaitlist() {
+export function SurgicalWaitlist({region}: {region: Region}) {
   const [waitPeriod, setWaitPeriod] = useState<Wait>("0 à 6 mois");
-  const [region, setRegion] = useState<Region>("RSS06");
   
   const {data, isLoading} = useQuery({queryKey: ['surgical-waitlist-data'], queryFn: async () => {
     return getSurgicalWaitlistData();
@@ -30,31 +27,12 @@ export function SurgicalWaitlist() {
                 Number of patients on the surgical waitlist over time, by surgical specialty, wait time period, and region.
             </CardDescription>
             <CardAction>
-                <div className="gap-2 flex flex-col">
-                    <div>
                 <ToggleGroup type="single" value={waitPeriod} variant="outline">
                     {Object.keys(WAIT_LABELS).map((key) => {
                         return <ToggleGroupItem key={key} value={key} size="sm" onClick={() => setWaitPeriod(key as Wait)}>{WAIT_LABELS[key as keyof typeof WAIT_LABELS]}</ToggleGroupItem>
                     })}
                 </ToggleGroup>
-                </div>
-                <div>
-                <Field>
-                <Select value={region} onValueChange={(value) => setRegion(value as Region)}>
-                    <SelectTrigger>
-                        <SelectValue placeholder="Select a Region" />
-                    </SelectTrigger>
-                    <SelectContent>
-                    <SelectGroup>
-                        {Object.entries(REGION_LABELS).map(([regionKey, regionLabel]) => (
-                            <SelectItem key={regionKey} value={regionKey}>{regionLabel}</SelectItem>
-                        ))}
-                    </SelectGroup>
-                    </SelectContent>
-                </Select>
-                </Field>
-                </div>
-                </div>
+ 
             </CardAction>
         </CardHeader>
         <CardContent>

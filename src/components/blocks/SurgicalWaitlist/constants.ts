@@ -1,24 +1,5 @@
 import type { ChartConfig } from "@/components/ui/chart";
-import type { Region, SurgicalSpecialty, Wait } from "./types";
-
-export const REGION_LABELS: Record<Region, string> = {
-    RSS01: 'Bas-Saint-Laurent',
-    RSS02: 'Saguenay-Lac-Saint-Jean',
-    RSS03: 'Capitale-Nationale',    
-    RSS04: 'Mauricie et Centre-du-Québec',
-    RSS05: 'Estrie',
-    RSS06: 'Montréal',
-    RSS07: 'Outaouais',
-    RSS08: 'Abitibi-Témiscamingue',
-    RSS09: 'Côte-Nord',
-    RSS10: 'Nord-du-Québec',
-    RSS11: 'Gaspésie-Îles-de-la-Madeleine',
-    RSS12: 'Chaudière-Appalaches',
-    RSS13: 'Laval',
-    RSS14: 'Lanaudière',
-    RSS15: 'Laurentides',
-    RSS16: 'Montérégie'
-}
+import type { Wait } from "./types";
 
 export const CHART_CONFIG: ChartConfig = {
     Chirurgie_generale:{ label: 'General Surgery', color: 'var(--color-red-400)'},

@@ -1,3 +1,5 @@
+import type { Region } from "@/utils/regions";
+
 export type SurgicalWaitlist = {
     Period: string;
     Region: Region;
@@ -5,7 +7,6 @@ export type SurgicalWaitlist = {
     Total: number;
 } & { [key in SurgicalSpecialty]: number };
 
-export type Region = 'RSS01' | 'RSS02' | 'RSS03' | 'RSS04' | 'RSS05' | 'RSS06' | 'RSS07' | 'RSS08' | 'RSS09' | 'RSS10' | 'RSS11' | 'RSS12' | 'RSS13' | 'RSS14' | 'RSS15' | 'RSS16';
 
 export type Wait = '0 à 6 mois' | '6 à 12 mois' | 'Plus d\'1 an';
 
