@@ -3,16 +3,17 @@ import { getEmergencyRoomData } from "./api";
 import { Card, CardAction, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useMemo, useState } from "react";
 import type { Region } from "@/utils/regions";
-import { Item, ItemContent, ItemGroup, ItemHeader, ItemTitle } from "@/components/ui/item";
+import { Item, ItemContent, ItemDescription, ItemGroup, ItemHeader, ItemTitle } from "@/components/ui/item";
 import {  Label, Pie, PieChart } from "recharts";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { Ambulance, Hospital, History } from "lucide-react";
 
 const SORT_BY = [
+    {label: 'Patients in ER', value: 'totalERPatients'},
+    {label: 'Occupied Stretchers', value: 'occupiedStretchers'},
     {label: "Wait time (waiting room)", value: 'waitTimeAmbulatory'},
     {label: "Wait time (stretcher)", value: 'waitTimeStretcher'},
-    {label: 'Patients in ER', value: 'totalERPatients'},
-    {label: 'Occupied Stretchers', value: 'occupiedStretchers'}
 ]
 
 export function EmergencyRooms({region}: {region: Region}) {
@@ -58,7 +59,7 @@ export function EmergencyRooms({region}: {region: Region}) {
     return (
         <Card>
             <CardHeader>
-                <CardTitle>Emergency Room Status</CardTitle>
+                <CardTitle className="gap-2 flex flex-row items-center"><Ambulance />Emergency Room Status</CardTitle>
                 <CardAction className="gap-2 flex flex-row content-center items-center">
                     <p className="text-sm">Sort by</p>
                     <ToggleGroup type="single" value={sort} variant="outline">
@@ -69,15 +70,15 @@ export function EmergencyRooms({region}: {region: Region}) {
                 </CardAction>
             </CardHeader>
             <CardContent>
-                <ItemGroup className="gap-4 grid grid-cols-1">
+                <ItemGroup className="gap-6 grid grid-cols-1">
                 {filteredData?.map((data) => {
                     const [stretcherWaitHours, stretcherWaitMinutes] = data.DMS_sur_civiere_horaire.split(':').map(Number);
                     const [ambulatoryWaitHours, ambulatoryWaitMinutes] = data.DMS_ambulatoire_horaire.split(':').map(Number);
                     return (
                         <Item key={data.No_permis_installation} variant="muted">
-                            
                                 <ItemHeader>
-                                <ItemTitle>{data.Nom_installation}</ItemTitle>
+                                    <ItemTitle className="gap-2 flex flex-row items-center"><Hospital />{data.Nom_installation}</ItemTitle>
+                                    <ItemDescription className="gap-1 flex flex-row items-center text-xs" ><History size={18} />Last updated at: {data.Mise_a_jour}</ItemDescription>
                                 </ItemHeader>
                                 <ItemContent className="gap-2 grid grid-cols-3">
                                 <ChartContainer config={{patientsWaitingFirstVisit: {label: 'Patients Waiting To Be Seen'}, patientsSeen: {label: "Patients Already Seen"}}}>

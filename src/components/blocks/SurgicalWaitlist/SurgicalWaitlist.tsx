@@ -8,6 +8,7 @@ import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { CHART_CONFIG, WAIT_LABELS } from "./constants";
 import type { SurgicalWaitlist, Wait } from "./types";
 import type { Region } from "@/utils/regions";
+import { CalendarClock } from "lucide-react";
 
 export function SurgicalWaitlist({region}: {region: Region}) {
   const [waitPeriod, setWaitPeriod] = useState<Wait>("0 à 6 mois");
@@ -21,7 +22,7 @@ export function SurgicalWaitlist({region}: {region: Region}) {
     <>
       <Card>
         <CardHeader>
-            <CardTitle>Surgical Waitlist</CardTitle>
+            <CardTitle className="gap-2 flex flex-row items-center"><CalendarClock />Surgical Waitlist</CardTitle>
         
             <CardDescription>
                 Number of patients on the surgical waitlist over time, by surgical specialty, wait time period, and region.
