@@ -1,23 +1,17 @@
 import type { Region } from "@/utils/regions";
 
 export type SurgicalWaitlist = {
-    Period: string;
-    Region: Region;
-    ['Delais_d\'attente']: Wait;
-    Total: number;
-} & { [key in SurgicalSpecialty]: number };
+    id: number;
+    delay: Delay;
+    period: Period;
+    year: string;
+    region: Region;
+    total: number | null;
+} & { [key in SurgicalSpecialty]: number | null};
 
 
-export type Wait = '0 à 6 mois' | '6 à 12 mois' | 'Plus d\'1 an';
+export type Delay = '0_6' | '6_12' | '12_plus';
 
-export type SurgicalSpecialty = 
-    'Chirurgie_generale' | 
-    'Chirurgie_orthopedique' |
-    'Chirurgie_plastique' |
-    'Chirurgie_vasculaire' |
-    'Neurochirurgie' | 
-    'Obstetrique_et_gynecologie' |
-    'ORL_ou_chirurgie_cervico_faciale' |
-    'Ophtalmologie' |
-    'Urologie' |
-    'Autres';
+export type Period = 'P01' | 'P02' | 'P03' | 'P04' | 'P05' | 'P06' | 'P07' | 'P08' | 'P09' | 'P10' | 'P11' | 'P12' | 'P13';
+
+export type SurgicalSpecialty = 'entf' | 'general' | 'neuro' | 'obgyn' | 'opthamology' | 'orthopedic' | 'other' | 'plastic' | 'urology' | 'vascular';

@@ -23,7 +23,6 @@ function App() {
         </CardHeader>
       </Card>
       <SurgicalWaitlist region={region}/>
-      <EmergencyRooms region={region} />
       </div>
       </div>
     </QueryClientProvider>

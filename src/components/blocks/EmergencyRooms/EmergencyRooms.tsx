@@ -16,6 +16,8 @@ const SORT_BY = [
     {label: "Wait time (stretcher)", value: 'waitTimeStretcher'},
 ]
 
+const NO_DATA_AVAILABLE = "pas d'information disponible"
+
 export function EmergencyRooms({region}: {region: Region}) {
     const [sort, setSort] = useState('totalERPatients');
 
@@ -24,22 +26,22 @@ export function EmergencyRooms({region}: {region: Region}) {
     }});
 
     const filteredData = useMemo(() => {
-        return data?.records.filter((record) => record.RSS === Number(region.substring(3))).filter((record) => record.Nom_installation !== 'Total régional').map((record) => {
+        return data?.records.filter((record) => Number(record.RSS) === Number(region.substring(3))).filter((record) => record.Nom_installation !== 'Total régional').map((record) => {
             return {
                 ...record,
-                waitTimeAmbulatory: record.DMS_ambulatoire,
-                waitTimeStretcher: record.DMS_sur_civiere,
-                totalERPatients: record.Nombre_total_de_patients_presents_a_lurgence,
-                occupiredStretchers: record.Nombre_de_civieres_occupees,
+                waitTimeAmbulatory: transformedData(record.DMS_ambulatoire),
+                waitTimeStretcher: transformedData(record.DMS_sur_civiere),
+                totalERPatients: transformedData(record.Nombre_total_de_patients_presents_a_lurgence),
+                occupiedStretchers: transformedData(record.Nombre_de_civieres_occupees),
                 totals: [
-                    {category: 'patientsWaitingFirstVisit', count: record.Nombre_total_de_patients_en_attente_de_PEC, fill: 'var(--color-yellow-200)'},
-                    {category: 'patientsSeen', count: record.Nombre_total_de_patients_presents_a_lurgence - record.Nombre_total_de_patients_en_attente_de_PEC, fill: 'var(--color-yellow-300)'},
+                    {category: 'patientsWaitingFirstVisit', count: transformedData(record.Nombre_total_de_patients_en_attente_de_PEC), fill: 'var(--color-yellow-200)'},
+                    {category: 'patientsSeen', count: Number(record.Nombre_total_de_patients_presents_a_lurgence) - Number(record.Nombre_total_de_patients_en_attente_de_PEC), fill: 'var(--color-yellow-300)'},
                     
                 ],
                 stretchers: [
-                    {category: 'occupiedStretchers', count: record.Nombre_de_civieres_occupees - record.Nombre_de_patients_sur_civiere_plus_de_24_heures - record.Nombre_de_patients_sur_civiere_plus_de_48_heures, fill: 'var(--color-red-200)'},
-                    {category: 'occupied24Hours', count: record.Nombre_de_patients_sur_civiere_plus_de_24_heures, fill: 'var(--color-red-400)'},
-                    {category: 'occupied48Hours', count: record.Nombre_de_patients_sur_civiere_plus_de_48_heures, fill: 'var(--color-red-600)'},
+                    {category: 'occupiedStretchers', count: Number(record.Nombre_de_civieres_occupees) - Number(record.Nombre_de_patients_sur_civiere_plus_de_24_heures) - Number(record.Nombre_de_patients_sur_civiere_plus_de_48_heures), fill: 'var(--color-red-200)'},
+                    {category: 'occupied24Hours', count: transformedData(record.Nombre_de_patients_sur_civiere_plus_de_24_heures), fill: 'var(--color-red-400)'},
+                    {category: 'occupied48Hours', count: transformedData(record.Nombre_de_patients_sur_civiere_plus_de_48_heures), fill: 'var(--color-red-600)'},
                 ],
             }
         }).sort((a,b) => {
@@ -55,6 +57,8 @@ export function EmergencyRooms({region}: {region: Region}) {
             return 1;
         })
     }, [data, region, sort]);
+
+    console.log("filteredData", filteredData)
 
     return (
         <Card>
@@ -72,8 +76,9 @@ export function EmergencyRooms({region}: {region: Region}) {
             <CardContent>
                 <ItemGroup className="gap-6 grid grid-cols-1">
                 {filteredData?.map((data) => {
-                    const [stretcherWaitHours, stretcherWaitMinutes] = data.DMS_sur_civiere_horaire.split(':').map(Number);
-                    const [ambulatoryWaitHours, ambulatoryWaitMinutes] = data.DMS_ambulatoire_horaire.split(':').map(Number);
+                    console.log("data", data)
+                    const [stretcherWaitHours, stretcherWaitMinutes] = data.DMS_sur_civiere_horaire === NO_DATA_AVAILABLE ? [] : data.DMS_sur_civiere_horaire.split(':').map(Number);
+                    const [ambulatoryWaitHours, ambulatoryWaitMinutes] = (data.DMS_ambulatoire_horaire === NO_DATA_AVAILABLE ? '' : data.DMS_ambulatoire_horaire).split(':').map(Number);
                     return (
                         <Item key={data.No_permis_installation} variant="muted">
                                 <ItemHeader>
@@ -184,4 +189,12 @@ export function EmergencyRooms({region}: {region: Region}) {
             </CardContent>
         </Card>
     )
+}
+
+function transformedData(data) {
+    if (data === NO_DATA_AVAILABLE || data === null || data === undefined) {
+        return null;
+    }
+
+    return Number(data);
 }
