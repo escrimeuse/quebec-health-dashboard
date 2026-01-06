@@ -18,12 +18,11 @@ import {
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { CHART_CONFIG, WAIT_LABELS } from "./constants";
 import type { SurgicalWaitlist, Delay } from "./types";
-import type { Region } from "@/utils/regions";
 import { CalendarClock } from "lucide-react";
 
-export function SurgicalWaitlist({ region }: { region: Region }) {
+export function SurgicalWaitlist({ region }: { region: string }) {
   const [delay, setDelay] = useState<Delay>("0_6");
-
+  console.log("region", region);
   const queryFn = useCallback(async () => {
     return getSurgicalWaitlistData({ region, delay });
   }, [region, delay]);

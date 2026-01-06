@@ -8,7 +8,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { useMemo, useState } from "react";
-import type { Region } from "@/utils/regions";
 import {
   Item,
   ItemContent,
@@ -35,7 +34,7 @@ const SORT_BY = [
 
 const NO_DATA_AVAILABLE = "pas d'information disponible";
 
-export function EmergencyRooms({ region }: { region: Region }) {
+export function EmergencyRooms({ region }: { region: string }) {
   const [sort, setSort] = useState("totalERPatients");
 
   const { data } = useQuery({

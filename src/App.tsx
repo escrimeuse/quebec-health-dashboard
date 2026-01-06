@@ -9,12 +9,11 @@ import {
 import { RegionSelector } from "./components/blocks/RegionSelector/RegionSelector.tsx";
 import { useState } from "react";
 import { HeartPulse } from "lucide-react";
-import type { Region } from "./utils/regions.ts";
 
 const QUERY_CLIENT = new QueryClient();
 
 function App() {
-  const [region, setRegion] = useState<Region>("RSS06");
+  const [region, setRegion] = useState<string>("RSS06");
 
   return (
     <QueryClientProvider client={QUERY_CLIENT}>

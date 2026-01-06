@@ -1,11 +1,9 @@
-import type { Region } from "@/utils/regions";
-
 export type SurgicalWaitlist = {
   id: number;
   delay: Delay;
   period: Period;
   year: string;
-  region: Region;
+  region: string;
   total: number | null;
 } & { [key in SurgicalSpecialty]: number | null };
 

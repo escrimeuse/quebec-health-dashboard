@@ -6,7 +6,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { REGION_LABELS } from "@/utils/regions";
+import { getRegionData } from "./api";
+import { useQuery } from "@tanstack/react-query";
 
 export function RegionSelector({
   value,
@@ -15,6 +16,15 @@ export function RegionSelector({
   value: string;
   onValueChange: (value: string) => void;
 }) {
+  const { data, isLoading } = useQuery({
+    queryKey: ["regions"],
+    queryFn: async () => await getRegionData(),
+  });
+
+  if (isLoading) {
+    return "Loading...";
+  }
+
   return (
     <Select value={value} onValueChange={onValueChange}>
       <SelectTrigger>
@@ -22,9 +32,9 @@ export function RegionSelector({
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
-          {Object.entries(REGION_LABELS).map(([regionKey, regionLabel]) => (
-            <SelectItem key={regionKey} value={regionKey}>
-              {regionLabel}
+          {data?.map(({ code, name }) => (
+            <SelectItem key={code} value={code}>
+              {name}
             </SelectItem>
           ))}
         </SelectGroup>
