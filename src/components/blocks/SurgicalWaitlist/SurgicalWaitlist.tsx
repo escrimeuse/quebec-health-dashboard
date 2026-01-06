@@ -128,6 +128,7 @@ function SurgicalWaitlistChart({ data }: { data: SurgicalWaitlist[] }) {
   );
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function CustomizedAxisTick({ x, y, payload }: any) {
   const [period, year] = payload.value.split("-");
   const label = period === "P01" ? year : "";

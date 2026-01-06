@@ -3,14 +3,12 @@ import { SurgicalWaitlist } from "./components/blocks/SurgicalWaitlist/SurgicalW
 import {
   Card,
   CardAction,
-  CardContent,
   CardHeader,
   CardTitle,
 } from "./components/ui/card.tsx";
-import { EmergencyRooms } from "./components/blocks/EmergencyRooms/EmergencyRooms.tsx";
 import { RegionSelector } from "./components/blocks/RegionSelector/RegionSelector.tsx";
 import { useState } from "react";
-import { HeartPulse, SquareActivity } from "lucide-react";
+import { HeartPulse } from "lucide-react";
 import type { Region } from "./utils/regions.ts";
 
 const QUERY_CLIENT = new QueryClient();
@@ -33,7 +31,7 @@ function App() {
               <CardAction>
                 <RegionSelector
                   value={region}
-                  onValueChange={(value) => setRegion(value as any)}
+                  onValueChange={(value) => setRegion(value as Region)}
                 />
               </CardAction>
             </CardHeader>

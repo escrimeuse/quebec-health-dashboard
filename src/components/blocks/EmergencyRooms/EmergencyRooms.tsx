@@ -38,7 +38,7 @@ const NO_DATA_AVAILABLE = "pas d'information disponible";
 export function EmergencyRooms({ region }: { region: Region }) {
   const [sort, setSort] = useState("totalERPatients");
 
-  const { data, isLoading } = useQuery({
+  const { data } = useQuery({
     queryKey: ["emergency-room-data"],
     queryFn: async () => {
       return getEmergencyRoomData();
